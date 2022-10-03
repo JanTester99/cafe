@@ -38,6 +38,22 @@ test('if order can contain many Drinks', function() {
     }
     expect($this->order->getItemsLeft() === $counter)->toBeTrue();
 });
+
+// czy ilosc kaw do zrobienia, rowna jest ilosci kaw w zamowieniu ?
+test('if number of items left in order is the same as order contain ?', function() {
+    $counter = rand(10,20);
+    for($i=0; $i< $counter; $i++) {
+        $this->order->add(Drink::factory()->create());
+    }
+    $items = $this->order->getItems();
+    $itemsCount = 0;
+    foreach($items as $drinkId => $numberOfDrinks) {
+        $itemsCount += $numberOfDrinks;
+    }
+
+    expect($this->order->getItemsLeft() === $itemsCount)->toBeTrue();
+});
+
 // czy moge usunac drink z zamowienia
 // czy wartosc zamowienia odpowiada cenom drinkow ?
 // czy zamowienie jest domyslnie otwarte/niezrealizowane/niewyslane ( do wyboru )

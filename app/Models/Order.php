@@ -28,15 +28,18 @@ class Order extends Model
 
     public function add(Drink $drink): void
     {
-        $contents = $this->contents 
-            ? json_decode($this->contents, true)  
-            : [];
+        $items = $this->getItems();
             
-        $contents[$drink->getId()] = $contents[$drink->getId()] ?? 0;
-        $contents[$drink->getId()] ++;
+        $items[$drink->getId()] = $items[$drink->getId()] ?? 0;
+        $items[$drink->getId()] ++;
 
         $this->items_left ++;
      
-        $this->contents = json_encode($contents);
+        $this->contents = json_encode($items);
+    }
+
+    public function getItems(): array
+    {
+        return $this->contents ? json_decode($this->contents, true) : [];
     }
 }
