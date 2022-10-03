@@ -12,9 +12,7 @@ beforeEach(function() {
 });
 
 // czy moge przypisac uzytkownika do zamowienia ?
-
 test('can I create Order for User', function () {
-
     expect($this->order->getStatus() === Order::NEW_ORDER)
         ->toBeTrue();
 });
@@ -22,22 +20,24 @@ test('can I create Order for User', function () {
 // czy moge dodac drink do zamowienia ?
 test('if Drink can be added to Order', function(){
     $drink = Drink::factory()->create();
-    
     $this->order->add($drink);
-    
     expect($this->order->getItemsLeft() === 1)->toBeTrue();
 });
 
 // czy zamowienie moze zawierac drink ?
 test('if order can contain a Drink', function() {
-
     $this->order->add(Drink::factory()->create());
-    
     expect($this->order->getItemsLeft() > 0)->toBeTrue();
-
 });
 
 // czy zamowienie moze zawierac wiele drinkow ?
+test('if order can contain many Drinks', function() {
+    $counter = rand(10,20);
+    for($i=0; $i< $counter; $i++) {
+        $this->order->add(Drink::factory()->create());
+    }
+    expect($this->order->getItemsLeft() === $counter)->toBeTrue();
+});
 // czy moge usunac drink z zamowienia
 // czy wartosc zamowienia odpowiada cenom drinkow ?
 // czy zamowienie jest domyslnie otwarte/niezrealizowane/niewyslane ( do wyboru )
