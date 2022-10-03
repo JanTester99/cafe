@@ -42,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getName(): string 
     {
         return $this->name;
