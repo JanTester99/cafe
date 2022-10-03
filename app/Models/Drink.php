@@ -18,4 +18,9 @@ class Drink extends Model
     {
         return $this->brewing_time;
     }
+
+    public function getName(): string 
+    {
+        return $this->name;
+    }
 }

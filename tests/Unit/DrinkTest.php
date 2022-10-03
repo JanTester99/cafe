@@ -17,3 +17,7 @@ test('if drink has a Price ?', function () {
 test('if drink has its brewing time', function() {
     expect($this->drink->getBrewingTime() > 0)->toBeTrue();
 });
+
+test('if drunk has its name', function() {
+    expect($this->drink->getName() != '')->toBeTrue();
+});
