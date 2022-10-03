@@ -23,4 +23,10 @@ class Drink extends Model
     {
         return $this->name;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }
+

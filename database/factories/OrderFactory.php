@@ -14,7 +14,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'items_left' => 0
         ];
     }
 }

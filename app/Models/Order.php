@@ -20,4 +20,23 @@ class Order extends Model
     {
         return self::NEW_ORDER;
     }
+
+    public function getItemsLeft(): int
+    {
+        return $this->items_left ?: 0;
+    }
+
+    public function add(Drink $drink): void
+    {
+        $contents = $this->contents 
+            ? json_decode($this->contents, true)  
+            : [];
+            
+        $contents[$drink->getId()] = $contents[$drink->getId()] ?? 0;
+        $contents[$drink->getId()] ++;
+
+        $this->items_left ++;
+     
+        $this->contents = json_encode($contents);
+    }
 }
