@@ -34,12 +34,38 @@ class Order extends Model
         $items[$drink->getId()] ++;
 
         $this->items_left ++;
+        $this->total += $drink->getPrice();
      
+        $this->contents = json_encode($items);
+    }
+
+    public function remove(Drink $drink): void
+    {
+        $items = $this->getItems();
+
+        // no such drink in order
+        if (!in_array($drink->getId(), array_keys($items))) {
+            return;
+        }
+
+        if ($items[$drink->getId()] == 1) {
+            unset($items[$drink->getId()]);
+        } else {
+            $items[$drink->getId()] --;
+        }
+
+        $this->items_left --;
+        $this->total -= $drink->getPrice();
+        
         $this->contents = json_encode($items);
     }
 
     public function getItems(): array
     {
         return $this->contents ? json_decode($this->contents, true) : [];
+    }
+
+    public function getTotal() {
+        return $this->total ?: 0 ;
     }
 }

@@ -55,7 +55,34 @@ test('if number of items left in order is the same as order contain ?', function
 });
 
 // czy moge usunac drink z zamowienia
+test('can I remove Drink from Order', function() {
+    $drink = Drink::factory()->create();
+    expect($this->order->getItemsLeft())->toBe(0);
+
+    $this->order->add($drink);
+    $this->order->add($drink);
+    expect($this->order->getItemsLeft())->toBe(2);
+    
+    $this->order->remove($drink);
+    expect($this->order->getItemsLeft())->toBe(1);
+});
+
+
 // czy wartosc zamowienia odpowiada cenom drinkow ?
+test('is Order total is exactly sum of ordered drinks prices', function() {
+    $total = 0;
+    $drink = Drink::factory()->create();
+    $this->order->add($drink);
+    $total += $drink->getPrice();
+    
+    $drink = Drink::factory()->create();
+    $this->order->add($drink);
+    $total += $drink->getPrice();
+    
+    expect($this->order->getTotal())->toBe($total);
+});
+
+
 // czy zamowienie jest domyslnie otwarte/niezrealizowane/niewyslane ( do wyboru )
 // czy moge wyslac zamowienie puste ?
 // czy moge wyslac zamowienie z drinkami ?
