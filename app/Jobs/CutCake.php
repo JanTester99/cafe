@@ -2,8 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Drink;
-use App\Models\Order;
+use App\Models\Cake;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,22 +10,22 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class BrewCafe implements ShouldQueue
+class CutCake implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $drink;
-    private $orderId;
 
+    private $cake;
+    private $orderId;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Drink $drink, int $orderId)
+    public function __construct(Cake $cake, int $orderId)
     {
-        $this->drink = $drink;
         $this->orderId = $orderId;
+        $this->cake = $cake;
     }
 
     /**
@@ -36,9 +35,6 @@ class BrewCafe implements ShouldQueue
      */
     public function handle()
     {
-        //sleep($this->drink->getBrewingTime()*.1 ?: 0);
-
-        // $order = Order::find($this->orderId);
-        // $order->oneDone();
+        //
     }
 }

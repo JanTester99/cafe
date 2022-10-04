@@ -54,4 +54,8 @@ event based
 
 cake
 
+- [x] do zamowienia mozna dodac ciasto
+- [x] czy manager moze procesowac ciasto do workera ktory kroi ciasto
+- [ ] czy mozna przygotowac ciasto dla zamowienia
+
 - [ ] kawiarnia ma obslugiwac ciasta

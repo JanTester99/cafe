@@ -33,7 +33,7 @@ class Order extends Model
             return self::NEW_ORDER;
         }
 
-        if ($this->is_completed) {
+        if ($this->is_completed && $this->is_submited) {
             return self::COMPLETED;
         }
 
@@ -45,37 +45,44 @@ class Order extends Model
         return $this->items_left ?: 0;
     }
 
-    public function add(Drink $drink): void
+    public function add(Orderable $item): void
     {
         $items = $this->getItems();
+
+        if (!isset($items[$item->getType()])) {
+            $items[$item->getType()] = [];
+        }
             
-        $items[$drink->getId()] = $items[$drink->getId()] ?? 0;
-        $items[$drink->getId()] ++;
+        $items[$item->getType()][$item->getId()] = $items[$item->getType()][$item->getId()] ?? 0;
+        $items[$item->getType()][$item->getId()] ++;
 
         $this->items_left ++;
-        $this->total += $drink->getPrice();
+        $this->total += $item->getPrice();
      
         $this->contents = json_encode($items);
         $this->save();
     }
 
-    public function remove(Drink $drink): void
+    public function remove(Orderable $item): void
     {
         $items = $this->getItems();
 
-        // no such drink in order
-        if (!in_array($drink->getId(), array_keys($items))) {
+        // no such item in order
+        if (!isset($items[$item->getType()])) {
+            return;
+        }
+        if (!in_array($item->getId(), array_keys($items[$item->getType()]))) {
             return;
         }
 
-        if ($items[$drink->getId()] == 1) {
-            unset($items[$drink->getId()]);
+        if ($items[$item->getType()][$item->getId()] == 1) {
+            unset($items[$item->getType()][$item->getId()]);
         } else {
-            $items[$drink->getId()] --;
+            $items[$item->getType()][$item->getId()] --;
         }
 
         $this->items_left --;
-        $this->total -= $drink->getPrice();
+        $this->total -= $item->getPrice();
         
         $this->contents = json_encode($items);
         $this->save();

@@ -1,6 +1,8 @@
 <?php
 
 use App\Jobs\BrewCafe;
+use App\Jobs\CutCake;
+use App\Models\Cake;
 use App\Models\Drink;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,14 +12,19 @@ uses(Tests\TestCase::class, RefreshDatabase::class);
 
 // czy zamowienie mozna zamienic na kolejke napojow do realizacji
 test('can manager split order to jobs', function () {
-    $order = new Order();
-    $order->add(Drink::factory()->create());
-    $order->submit();
-
     Bus::fake();
 
+    $order = new Order();
+    $order->add(Drink::factory()->create());
+    $order->add(Cake::factory()->create());
+    $order->submit();
+
+
     $items = $order->getItems();
-    foreach($items as $drinkId => $numberOfCups) {
+    $coffees = $items[Drink::TYPE] ?? [];
+    $cakes = $items[Cake::TYPE] ?? [];
+
+    foreach($coffees as $drinkId => $numberOfCups) {
         for($i = 1; $i<= $numberOfCups; $i++) {
             BrewCafe::dispatch(
                 Drink::find($drinkId),
@@ -25,6 +32,15 @@ test('can manager split order to jobs', function () {
             );
         }
     };
+
+    foreach ($cakes as $cakeId => $numberOfPieces) {
+        for($i = 1; $i<= $numberOfPieces; $i++) {
+            CutCake::dispatch(
+                Cake::find($cakeId),
+                $order->getId()
+            );
+        }
+    }
 
     Bus::assertDispatched(BrewCafe::class);
 });

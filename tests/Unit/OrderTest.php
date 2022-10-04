@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cake;
 use App\Models\Drink;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Order;
@@ -47,8 +48,10 @@ test('if number of items left in order is the same as order contain ?', function
     }
     $items = $this->order->getItems();
     $itemsCount = 0;
-    foreach($items as $drinkId => $numberOfDrinks) {
-        $itemsCount += $numberOfDrinks;
+    foreach($items as $type => $products) {
+        foreach($products as $drinkId => $numberOfItems) {
+            $itemsCount += $numberOfItems;
+        }
     }
 
     expect($this->order->getItemsLeft() === $itemsCount)->toBeTrue();
@@ -190,4 +193,12 @@ test('can we over process given Order - too much done', function() {
     $this->order->oneDone();
 
     expect($this->order->getItemsLeft())->toBe(0);
+});
+
+// do zamowienia mozna dodac ciasto
+test('can we add Cake to Order', function() {
+    $this->order->add($cake = Cake::factory()->create());
+
+    expect($this->order->getItemsLeft())->toBe(1);
+    expect($this->order->getTotal())->toBe($cake->getPrice());
 });

@@ -5,24 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Drink extends Model implements Orderable
+class Cake extends Model implements Orderable
 {
     use HasFactory;
 
-    const TYPE = 'coffee';
+    const TYPE = 'cake';
 
-    public function getType():string {
+    public function getType(): string {
         return self::TYPE;
     }
 
     public function getPrice(): float 
     {
         return $this->price;
-    }
-
-    public function getBrewingTime(): int
-    {
-        return $this->brewing_time;
     }
 
     public function getName(): string 
@@ -35,4 +30,3 @@ class Drink extends Model implements Orderable
         return $this->id;
     }
 }
-

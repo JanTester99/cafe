@@ -29,7 +29,12 @@ class OnOrderSubmited
     public function handle(OrderSubmited $event)
     {
         $items = $event->order->getItems();
-        foreach($items as $drinkId => $numberOfCups) {
+
+        if (!is_array($items[Drink::TYPE])){
+            return;
+        }
+
+        foreach($items[Drink::TYPE] as $drinkId => $numberOfCups) {
             for($i = 1; $i<= $numberOfCups; $i++) {
                 BrewCafe::dispatch(
                     Drink::find($drinkId),
