@@ -10,6 +10,7 @@ class Order extends Model
     use HasFactory;
 
     const NEW_ORDER = 'nowe';
+    const SUBMITED = 'zamowienie przyjete';
 
     public function __construct(User $user)
     {
@@ -18,7 +19,11 @@ class Order extends Model
 
     public function getStatus(): string 
     {
-        return self::NEW_ORDER;
+        if (!$this->is_submited) {
+            return self::NEW_ORDER;
+        }
+
+        return self::SUBMITED;
     }
 
     public function getItemsLeft(): int
@@ -67,5 +72,16 @@ class Order extends Model
 
     public function getTotal() {
         return $this->total ?: 0 ;
+    }
+
+    public function submit(): bool {
+
+        if (!$this->getItemsLeft()) {
+            return false;
+        }
+
+        $this->is_submited = true;
+
+        return true;
     }
 }

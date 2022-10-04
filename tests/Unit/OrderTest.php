@@ -72,6 +72,7 @@ test('can I remove Drink from Order', function() {
 test('is Order total is exactly sum of ordered drinks prices', function() {
     $total = 0;
     $drink = Drink::factory()->create();
+
     $this->order->add($drink);
     $total += $drink->getPrice();
     
@@ -82,11 +83,32 @@ test('is Order total is exactly sum of ordered drinks prices', function() {
     expect($this->order->getTotal())->toBe($total);
 });
 
-
 // czy zamowienie jest domyslnie otwarte/niezrealizowane/niewyslane ( do wyboru )
+test('is new Order with NEW_ORDER as default', function () {
+    expect($this->order->getStatus() === Order::NEW_ORDER)
+        ->toBeTrue();
+});
+
 // czy moge wyslac zamowienie puste ?
+test('can I submit empty Order', function() {
+    expect($this->order->submit())->toBeFalse();
+});
+
+
 // czy moge wyslac zamowienie z drinkami ?
+test('can I submit Order with Drink', function() {
+    $this->order->add(Drink::factory()->create());
+    expect($this->order->submit())->toBeTrue();
+});
+
 // czy zmieni sie status wyslanego zamowienia ?
+test('if Order Status is changed when submited', function() {
+    $status = $this->order->getStatus();
+    $this->order->add(Drink::factory()->create());
+    $this->order->submit();
+
+    expect($this->order->getStatus())->not->toBe($status);
+});
 
 // czy moge zrealizowac pozycje ( drink / job ) z zamowienia
 // czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
