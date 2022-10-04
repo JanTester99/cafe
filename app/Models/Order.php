@@ -100,7 +100,12 @@ class Order extends Model
         return true;
     }
 
-    public function oneDone() {
+    public function oneDone():void {
+
+        if ($this->is_completed) {
+            return;
+        }
+
         $this->items_left --;
 
         if (!$this->items_left) {

@@ -29,7 +29,7 @@ order
 - [x] czy zamowienie po utworzeniu zostaje zapisane
 - [x] czy po zmianie zamowienie zostaje zaktualizowane
 - [x] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
-- [ ] czy mozna zrealizowac za duzo pozycji
+- [x] czy mozna zrealizowac za duzo pozycji
 
 CLI / API
 

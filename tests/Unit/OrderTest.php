@@ -182,3 +182,12 @@ test('are Order flags being set as false with Order create', function() {
 });
 
 // czy mozna zrealizowac za duzo pozycji
+test('can we over process given Order - too much done', function() {
+    $this->order->add(Drink::factory()->create());
+    $this->order->submit();
+    $this->order->oneDone();
+    $this->order->oneDone();
+    $this->order->oneDone();
+
+    expect($this->order->getItemsLeft())->toBe(0);
+});
