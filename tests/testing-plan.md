@@ -28,8 +28,8 @@ order
 - [x] czy zmieni sie status wyslanego zamowienia ?
 
 - [x] czy moge zrealizowac pozycje ( drink / job ) z zamowienia
-- [ ] czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
-- [ ] czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
+- [x] czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
+- [x] czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
 
 CLI / API
 
