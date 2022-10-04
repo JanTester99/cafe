@@ -8,7 +8,7 @@ use App\Models\User;
 uses(Tests\TestCase::class, RefreshDatabase::class);
 
 beforeEach(function() {
-    $this->order = new Order(User::factory()->create());
+    $this->order = new Order();
 });
 
 // czy moge przypisac uzytkownika do zamowienia ?
@@ -141,3 +141,10 @@ test('if order with all Drinks delivered has Status Completed', function () {
     expect($this->order->getStatus())->toBe(Order::COMPLETED);
 });
 
+// - [ ] czy zamowienie po utworzeniu zostaje zapisane
+test('is Order saved to db after create', function() {
+    expect(!!$this->order->getId())->toBeTrue();
+});
+// - [ ] czy po zmianie zamowienie zostaje zaktualizowane
+// - [ ] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
+// - [ ] czy mozna zrealizowac za duzo pozycji

@@ -20,6 +20,7 @@ class Order extends Model
         }
 
         $this->owner_id = $user->getId();
+        $this->save();
     }
 
     public function getStatus(): string 
@@ -100,5 +101,10 @@ class Order extends Model
         if (!$this->items_left) {
             $this->is_completed = true;
         }
+    }
+
+    public function getId(): int
+    {
+        return $this->id ?? 0;
     }
 }
