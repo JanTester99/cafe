@@ -141,10 +141,44 @@ test('if order with all Drinks delivered has Status Completed', function () {
     expect($this->order->getStatus())->toBe(Order::COMPLETED);
 });
 
-// - [ ] czy zamowienie po utworzeniu zostaje zapisane
+// czy zamowienie po utworzeniu zostaje zapisane
 test('is Order saved to db after create', function() {
     expect(!!$this->order->getId())->toBeTrue();
 });
-// - [ ] czy po zmianie zamowienie zostaje zaktualizowane
-// - [ ] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
-// - [ ] czy mozna zrealizowac za duzo pozycji
+
+// czy po zmianie zawartosci zamowienie zostaje zaktualizowane
+test('is Order saved after contents change', function() {
+    $this->order->add(Drink::factory()->create());
+    $order = Order::find($this->order->id);
+
+    expect($order->getItemsLeft())->toBe($this->order->getItemsLeft());
+});
+
+// czy po wyslaniu do managera zamowienie zostaje zaktualizowane
+test('is Order saved after submit', function() {
+    $this->order->add(Drink::factory()->create());
+    $this->order->submit();
+
+    $order = Order::find($this->order->id);
+
+    expect($order->getStatus())->toBe($this->order->getStatus());
+});
+
+// czy po ukonczeniu zamowienie zostaje zaktualizowane
+test('is Order saved after completed', function() {
+    $this->order->add(Drink::factory()->create());
+    $this->order->submit();
+    $this->order->oneDone();
+
+    $order = Order::find($this->order->id);
+
+    expect($order->getStatus())->toBe($this->order->getStatus());
+});
+
+// czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
+test('are Order flags being set as false with Order create', function() {
+    expect($this->order->is_submited)->toBeFalse();
+    expect($this->order->is_completed)->toBeFalse();
+});
+
+// czy mozna zrealizowac za duzo pozycji

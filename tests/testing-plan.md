@@ -26,9 +26,9 @@ order
 - [x] czy moge zrealizowac pozycje ( drink / job ) z zamowienia
 - [x] czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
 - [x] czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
-- [ ] czy zamowienie po utworzeniu zostaje zapisane
-- [ ] czy po zmianie zamowienie zostaje zaktualizowane
-- [ ] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
+- [x] czy zamowienie po utworzeniu zostaje zapisane
+- [x] czy po zmianie zamowienie zostaje zaktualizowane
+- [x] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
 - [ ] czy mozna zrealizowac za duzo pozycji
 
 CLI / API

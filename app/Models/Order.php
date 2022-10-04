@@ -20,6 +20,8 @@ class Order extends Model
         }
 
         $this->owner_id = $user->getId();
+        $this->is_completed = false;
+        $this->is_submited = false;
         $this->save();
     }
 
@@ -52,6 +54,7 @@ class Order extends Model
         $this->total += $drink->getPrice();
      
         $this->contents = json_encode($items);
+        $this->save();
     }
 
     public function remove(Drink $drink): void
@@ -73,6 +76,7 @@ class Order extends Model
         $this->total -= $drink->getPrice();
         
         $this->contents = json_encode($items);
+        $this->save();
     }
 
     public function getItems(): array
@@ -91,6 +95,7 @@ class Order extends Model
         }
 
         $this->is_submited = true;
+        $this->save();
 
         return true;
     }
@@ -100,6 +105,7 @@ class Order extends Model
 
         if (!$this->items_left) {
             $this->is_completed = true;
+            $this->save();
         }
     }
 
