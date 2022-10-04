@@ -110,6 +110,7 @@ class Order extends Model
         }
 
         $this->items_left --;
+        $this->save();
 
         if (!$this->items_left) {
             $this->is_completed = true;
