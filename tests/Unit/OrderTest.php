@@ -110,7 +110,18 @@ test('if Order Status is changed when submited', function() {
     expect($this->order->getStatus())->not->toBe($status);
 });
 
-// czy moge zrealizowac pozycje ( drink / job ) z zamowienia
+// czy moge zrealizowac pozycje z zamowienia
+test('can I process at least one of Drink from submited Order', function () {
+    $this->order->add(Drink::factory()->create());
+    $this->order->submit();   
+    
+    $this->order->oneDone();
+
+    expect($this->order->getItemsLeft())->toBe(0);
+});
+
 // czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
+test('can I get Items left from Order');
+
 // czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
 

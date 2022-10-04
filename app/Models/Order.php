@@ -84,4 +84,8 @@ class Order extends Model
 
         return true;
     }
+
+    public function oneDone() {
+        $this->items_left --;
+    }
 }
