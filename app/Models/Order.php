@@ -11,6 +11,7 @@ class Order extends Model
 
     const NEW_ORDER = 'nowe';
     const SUBMITED = 'zamowienie przyjete';
+    const COMPLETED = 'ukonczone';
 
     public function __construct(User $user)
     {
@@ -21,6 +22,10 @@ class Order extends Model
     {
         if (!$this->is_submited) {
             return self::NEW_ORDER;
+        }
+
+        if ($this->is_completed) {
+            return self::COMPLETED;
         }
 
         return self::SUBMITED;
@@ -87,5 +92,9 @@ class Order extends Model
 
     public function oneDone() {
         $this->items_left --;
+
+        if (!$this->items_left) {
+            $this->is_completed = true;
+        }
     }
 }

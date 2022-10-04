@@ -121,8 +121,23 @@ test('can I process at least one of Drink from submited Order', function () {
 });
 
 // czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
-test('can I get Items left from Order');
+test('can I get Items left from Order', function() {
+    $drink = Drink::factory()->create();
+    expect($this->order->getItemsLeft())->toBe(0);
+
+    $this->order->add($drink);
+    $this->order->add($drink);
+    expect($this->order->getItemsLeft())->toBe(2);
+});
 
 // czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
-test('if order with all Drinks delivered has Status Completed');
+test('if order with all Drinks delivered has Status Completed', function () {
+    $drink = Drink::factory()->create();
+    $this->order->add($drink);
+    $this->order->add($drink);
+    $this->order->submit();
+    $this->order->oneDone();
+    $this->order->oneDone();
+    expect($this->order->getStatus())->toBe(Order::COMPLETED);
+});
 
