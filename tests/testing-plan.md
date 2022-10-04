@@ -42,8 +42,8 @@ manager
 
 worker
 
-- [ ] czy parzenie kawy trwa tak dlugo jak zakladano ?
-- [ ] czy zakonczenie parzenia skutkuje zmniejszeniem ilosci kaw w zamowieniu ?
+- [x] czy parzenie kawy trwa tak dlugo jak zakladano ?
+- [x] czy zakonczenie parzenia skutkuje zmniejszeniem ilosci kaw w zamowieniu ?
 
 event based
 
