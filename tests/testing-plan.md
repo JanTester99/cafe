@@ -49,5 +49,5 @@ event based
 
 - [x] czy wysylane jest powiadomienie/notifikacja/broadcast po zakonczonym zamowieniu ?
 - [x] czy wysylane jest powiadomienie do managera o gotowym zamowieniu do procesowania ?
-- [ ] czy jest listener czekajacy na powiadomienie o gotowym zamowieniu ?
-
+- [x] czy jest listener czekajacy na powiadomienie o gotowym zamowieniu ?
+- [x] czy jest listener czekajacy na powiadomienie o skompletowanym zamowieniu ?
