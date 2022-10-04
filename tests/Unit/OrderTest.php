@@ -124,4 +124,5 @@ test('can I process at least one of Drink from submited Order', function () {
 test('can I get Items left from Order');
 
 // czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
+test('if order with all Drinks delivered has Status Completed');
 
