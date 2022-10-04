@@ -38,7 +38,7 @@ CLI / API
 
 manager
 
-- [ ] czy zamowienie mozna zamienic na kolejke napojow do realizacji
+- [x] czy zamowienie mozna zamienic na kolejke napojow do realizacji
 
 worker
 
@@ -47,6 +47,7 @@ worker
 
 event based
 
-- [ ] czy wysylane jest powiadomienie/notifikacja/broadcast po zakonczonym zamowieniu ?
-- [ ] czy wysylane jest powiadomienie do managera o gotowym zamowieniu do procesowania ?
+- [x] czy wysylane jest powiadomienie/notifikacja/broadcast po zakonczonym zamowieniu ?
+- [x] czy wysylane jest powiadomienie do managera o gotowym zamowieniu do procesowania ?
+- [ ] czy jest listener czekajacy na powiadomienie o gotowym zamowieniu ?
 

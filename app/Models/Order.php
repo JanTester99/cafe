@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\OrderCompleted;
+use App\Events\OrderSubmited;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -96,6 +98,7 @@ class Order extends Model
 
         $this->is_submited = true;
         $this->save();
+        OrderSubmited::dispatch($this);
 
         return true;
     }
@@ -111,6 +114,7 @@ class Order extends Model
         if (!$this->items_left) {
             $this->is_completed = true;
             $this->save();
+            OrderCompleted::dispatch($this);
         }
     }
 
