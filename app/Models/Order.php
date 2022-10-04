@@ -13,8 +13,12 @@ class Order extends Model
     const SUBMITED = 'zamowienie przyjete';
     const COMPLETED = 'ukonczone';
 
-    public function __construct(User $user)
+    public function __construct($user = null)
     {
+        if (!($user instanceof User)) {
+            $user = User::factory()->create(['name' => 'Guest '.rand(1,100)]);
+        }
+
         $this->owner_id = $user->getId();
     }
 

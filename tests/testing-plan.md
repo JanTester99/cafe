@@ -7,10 +7,6 @@ drink
 - [x] czy drink ma czas wykonania ?  **drink.brewing time**
 - [x] czy drink ma swoja nazwe ? **drink.name**
 
-cli / api
-
-- czy moge wyswietlic/pobrac liste drinkow/menu ?
-
 user
 
 - [x] czy user ma name ?
@@ -19,9 +15,9 @@ order
 
 - [x] czy moge przypisac uzytkownika do zamowienia ?
 - [x] czy zamowienie moze zawierac drink ?
-- [x] czy zamowienie moze zawierac wiele drinkow ?
+- [x] czy zamowienie moze zawierac wiele drinkow ?sssssssss
 - [x] czy moge usunac drink z zamowienia
-- [x] czy wartosc zamowienia odpowiada cenom drinkow ?
+- [x] czy wartosc zamowienia odpowiada cenom drinkow ?ssssssssssssssss
 - [x] czy zamowienie jest domyslnie otwarte/niezrealizowane/niewyslane ( do wyboru )
 - [x] czy moge wyslac zamowienie puste ?
 - [x] czy moge wyslac zamowienie z drinkami ?
@@ -30,10 +26,15 @@ order
 - [x] czy moge zrealizowac pozycje ( drink / job ) z zamowienia
 - [x] czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
 - [x] czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
+- [ ] czy zamowienie po utworzeniu zostaje zapisane
+- [ ] czy po zmianie zamowienie zostaje zaktualizowane
+- [ ] czy po utworzeniu zamowienia flagi odpowiadajace za status zostaja ustawione na false
+- [ ] czy mozna zrealizowac za duzo pozycji
 
 CLI / API
 
-- [ ] czy moge zobaczyc liste niezrealizowanych zamowien ?
+- [x] czy moge wyswietlic/pobrac liste drinkow/menu ?
+- [x] czy moge zobaczyc liste niezrealizowanych zamowien ?
 
 manager
 
