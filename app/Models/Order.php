@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\OrderCompleted;
 use App\Events\OrderSubmited;
+use App\Events\OrderUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,8 @@ class Order extends Model
     const NEW_ORDER = 'nowe';
     const SUBMITED = 'zamowienie przyjete';
     const COMPLETED = 'ukonczone';
+
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function __construct($user = null)
     {
@@ -123,6 +126,8 @@ class Order extends Model
             $this->is_completed = true;
             $this->save();
             OrderCompleted::dispatch($this);
+        } else {
+            OrderUpdated::dispatch($this);
         }
     }
 
