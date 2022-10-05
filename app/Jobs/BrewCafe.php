@@ -36,9 +36,13 @@ class BrewCafe implements ShouldQueue
      */
     public function handle()
     {
-        //sleep($this->drink->getBrewingTime()*.1 ?: 0);
 
-        // $order = Order::find($this->orderId);
-        // $order->oneDone();
+        if (env('APP_ENV') === 'testing') {
+            echo "I'm making coffee .. it will take ".$this->drink->getBrewingTime()." seconds \n";
+        } else {
+            sleep($this->drink->getBrewingTime() ?: 1);
+        }
+        $order = Order::find($this->orderId);
+        $order->oneDone();
     }
 }
