@@ -56,6 +56,14 @@ cake
 
 - [x] do zamowienia mozna dodac ciasto
 - [x] czy manager moze procesowac ciasto do workera ktory kroi ciasto
-- [ ] czy mozna przygotowac ciasto dla zamowienia
+- [x] czy mozna przygotowac ciasto dla zamowienia
 
-- [ ] kawiarnia ma obslugiwac ciasta
+- [x] kawiarnia ma obslugiwac ciasta
+
+questions
+
+- [ ] czy zamowienie majace N kaw i M ciast zostanie zrealizowane w calosci N + M produktow
+
+- [ ] czy payload z eventem zawiera name Usera
+- [ ] czy payload do OrderUpdated zawiera nazwe wykonanej kawy / ciasta
+

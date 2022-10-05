@@ -4,21 +4,19 @@ use App\Events\OrderCompleted;
 use App\Events\OrderSubmited;
 use App\Models\Order;
 use Illuminate\Support\Facades\Event;
-use App\Jobs\BrewCafe;
 use App\Listeners\OnOrderCompleted;
 use App\Listeners\OnOrderSubmited;
-use App\Models\Drink;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Bus;
-
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(
+    Tests\TestCase::class, 
+    Illuminate\Foundation\Testing\RefreshDatabase::class
+);
 
 // czy wysylane jest powiadomienie do managera o gotowym zamowieniu do procesowania ?
 test('is submit event created', function () {
     Event::fake();
 
     $order = new Order();
-    $order->add(Drink::factory()->create());
+    $order->add(fakeDrink());
     $order->submit();
 
     Event::assertDispatched(OrderSubmited::class);
@@ -30,7 +28,7 @@ test('is there any listener on submit order', function() {
     Event::fake();
 
     $order = new Order();
-    $order->add(Drink::factory()->create());
+    $order->add(fakeDrink());
     $order->submit();
 
     Event::assertListening(OrderSubmited::class, OnOrderSubmited::class);
@@ -41,7 +39,7 @@ test('is completed event created', function () {
     Event::fake();
 
     $order = new Order();
-    $order->add(Drink::factory()->create());
+    $order->add(fakeDrink());
     $order->submit();
     $order->oneDone();
 
@@ -54,9 +52,13 @@ test('is there any listener on completed order', function() {
     Event::fake();
 
     $order = new Order();
-    $order->add(Drink::factory()->create());
+    $order->add(fakeDrink());
     $order->submit();
     $order->oneDone();
 
     Event::assertListening(OrderCompleted::class, OnOrderCompleted::class);
 });
+
+
+// czy payload z eventem zawiera name Usera
+// czy payload do OrderUpdated zawiera nazwe wykonanej kawy / ciasta

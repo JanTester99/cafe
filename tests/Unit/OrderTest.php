@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\Cake;
-use App\Models\Drink;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Order;
-use App\Models\User;
-
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(
+    Tests\TestCase::class, 
+    Illuminate\Foundation\Testing\RefreshDatabase::class
+);
 
 beforeEach(function() {
     $this->order = new Order();
@@ -20,14 +18,14 @@ test('can I create Order for User', function () {
 
 // czy moge dodac drink do zamowienia ?
 test('if Drink can be added to Order', function(){
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
     $this->order->add($drink);
     expect($this->order->getItemsLeft() === 1)->toBeTrue();
 });
 
 // czy zamowienie moze zawierac drink ?
 test('if order can contain a Drink', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     expect($this->order->getItemsLeft() > 0)->toBeTrue();
 });
 
@@ -35,7 +33,7 @@ test('if order can contain a Drink', function() {
 test('if order can contain many Drinks', function() {
     $counter = rand(10,20);
     for($i=0; $i< $counter; $i++) {
-        $this->order->add(Drink::factory()->create());
+        $this->order->add(fakeDrink());
     }
     expect($this->order->getItemsLeft() === $counter)->toBeTrue();
 });
@@ -44,7 +42,7 @@ test('if order can contain many Drinks', function() {
 test('if number of items left in order is the same as order contain ?', function() {
     $counter = rand(10,20);
     for($i=0; $i< $counter; $i++) {
-        $this->order->add(Drink::factory()->create());
+        $this->order->add(fakeDrink());
     }
     $items = $this->order->getItems();
     $itemsCount = 0;
@@ -59,7 +57,7 @@ test('if number of items left in order is the same as order contain ?', function
 
 // czy moge usunac drink z zamowienia
 test('can I remove Drink from Order', function() {
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
     expect($this->order->getItemsLeft())->toBe(0);
 
     $this->order->add($drink);
@@ -74,12 +72,12 @@ test('can I remove Drink from Order', function() {
 // czy wartosc zamowienia odpowiada cenom drinkow ?
 test('is Order total is exactly sum of ordered drinks prices', function() {
     $total = 0;
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
 
     $this->order->add($drink);
     $total += $drink->getPrice();
     
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
     $this->order->add($drink);
     $total += $drink->getPrice();
     
@@ -100,14 +98,14 @@ test('can I submit empty Order', function() {
 
 // czy moge wyslac zamowienie z drinkami ?
 test('can I submit Order with Drink', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     expect($this->order->submit())->toBeTrue();
 });
 
 // czy zmieni sie status wyslanego zamowienia ?
 test('if Order Status is changed when submited', function() {
     $status = $this->order->getStatus();
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $this->order->submit();
 
     expect($status)->toBe(Order::NEW_ORDER);
@@ -116,7 +114,7 @@ test('if Order Status is changed when submited', function() {
 
 // czy moge zrealizowac pozycje z zamowienia
 test('can I process at least one of Drink from submited Order', function () {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $this->order->submit();   
     
     $this->order->oneDone();
@@ -126,7 +124,7 @@ test('can I process at least one of Drink from submited Order', function () {
 
 // czy moge pobrac ilosc napojow pozostalych do zrealizowania w zamowieniu ?
 test('can I get Items left from Order', function() {
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
     expect($this->order->getItemsLeft())->toBe(0);
 
     $this->order->add($drink);
@@ -136,7 +134,7 @@ test('can I get Items left from Order', function() {
 
 // czy zamowienie ze zrealizowanymi pozycjami jest ukonczone / completed ?
 test('if order with all Drinks delivered has Status Completed', function () {
-    $drink = Drink::factory()->create();
+    $drink = fakeDrink();
     $this->order->add($drink);
     $this->order->add($drink);
     $this->order->submit();
@@ -152,7 +150,7 @@ test('is Order saved to db after create', function() {
 
 // czy po zmianie zawartosci zamowienie zostaje zaktualizowane
 test('is Order saved after contents change', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $order = Order::find($this->order->id);
 
     expect($order->getItemsLeft())->toBe($this->order->getItemsLeft());
@@ -160,7 +158,7 @@ test('is Order saved after contents change', function() {
 
 // czy po wyslaniu do managera zamowienie zostaje zaktualizowane
 test('is Order saved after submit', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $this->order->submit();
 
     $order = Order::find($this->order->id);
@@ -170,7 +168,7 @@ test('is Order saved after submit', function() {
 
 // czy po ukonczeniu zamowienie zostaje zaktualizowane
 test('is Order saved after completed', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $this->order->submit();
     $this->order->oneDone();
 
@@ -187,7 +185,7 @@ test('are Order flags being set as false with Order create', function() {
 
 // czy mozna zrealizowac za duzo pozycji
 test('can we over process given Order - too much done', function() {
-    $this->order->add(Drink::factory()->create());
+    $this->order->add(fakeDrink());
     $this->order->submit();
     $this->order->oneDone();
     $this->order->oneDone();
@@ -198,7 +196,7 @@ test('can we over process given Order - too much done', function() {
 
 // do zamowienia mozna dodac ciasto
 test('can we add Cake to Order', function() {
-    $this->order->add($cake = Cake::factory()->create());
+    $this->order->add($cake = fakeCake());
 
     expect($this->order->getItemsLeft())->toBe(1);
     expect($this->order->getTotal())->toBe($cake->getPrice());

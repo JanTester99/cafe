@@ -1,13 +1,9 @@
 <?php
 
-use App\Models\Drink;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Order;
-use App\Models\User;
-
-uses(Tests\TestCase::class, RefreshDatabase::class);
-
-
+uses(
+    Tests\TestCase::class, 
+    Illuminate\Foundation\Testing\RefreshDatabase::class
+);
 
 // - [x] czy moge wyswietlic/pobrac liste drinkow/menu ?
 test('can I display Drink Menu by Console Command', function () {

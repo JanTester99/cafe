@@ -1,10 +1,11 @@
 <?php
 
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(
+    Tests\TestCase::class, 
+    Illuminate\Foundation\Testing\RefreshDatabase::class
+);
 
 
 test('if user has a name', function () {
