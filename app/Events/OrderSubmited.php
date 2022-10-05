@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderSubmited // implements ShouldBroadcast
+class OrderSubmited implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -35,5 +35,10 @@ class OrderSubmited // implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('orders');
+    }
+
+    public function broadcastAs() 
+    {
+        return 'submited';
     }
 }

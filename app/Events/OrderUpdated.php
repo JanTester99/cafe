@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCompleted implements ShouldBroadcast
+class OrderUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -39,6 +39,6 @@ class OrderCompleted implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'completed';
+        return 'updated';
     }
 }
