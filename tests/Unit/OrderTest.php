@@ -110,7 +110,8 @@ test('if Order Status is changed when submited', function() {
     $this->order->add(Drink::factory()->create());
     $this->order->submit();
 
-    expect($this->order->getStatus())->not->toBe($status);
+    expect($status)->toBe(Order::NEW_ORDER);
+    expect($this->order->getStatus())->not->toBe(Order::NEW_ORDER);
 });
 
 // czy moge zrealizowac pozycje z zamowienia
@@ -164,7 +165,7 @@ test('is Order saved after submit', function() {
 
     $order = Order::find($this->order->id);
 
-    expect($order->getStatus())->toBe($this->order->getStatus());
+    expect($order->getStatus())->not->toBe(Order::NEW_ORDER);
 });
 
 // czy po ukonczeniu zamowienie zostaje zaktualizowane
