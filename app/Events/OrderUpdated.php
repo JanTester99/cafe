@@ -17,6 +17,9 @@ class OrderUpdated implements ShouldBroadcast
 
     public $order;
 
+    public $onQueue = 'high';
+    public $queue = 'high';
+
     /**
      * Create a new event instance.
      *

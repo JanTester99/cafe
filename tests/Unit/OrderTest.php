@@ -201,3 +201,11 @@ test('can we add Cake to Order', function() {
     expect($this->order->getItemsLeft())->toBe(1);
     expect($this->order->getTotal())->toBe($cake->getPrice());
 });
+
+test('if we try to remove Orderable which is not in Order contens', function () {
+    $this->order->add(fakeDrink());
+    $drink = fakeDrink();
+    $state = $this->order->remove($drink);
+
+    expect($state)->toBeFalse();
+});

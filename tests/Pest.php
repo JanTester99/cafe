@@ -26,7 +26,7 @@ use App\Models\Drink;
 |
 */
 
-expect()->extend('toBeOne', function () {
+expect()->extend('orderStatus', function () {
     return $this->toBe(1);
 });
 

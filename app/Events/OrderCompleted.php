@@ -16,6 +16,8 @@ class OrderCompleted implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
+    public $onQueue = 'high';
+    public $queue = 'high';
 
     /**
      * Create a new event instance.

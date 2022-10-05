@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+  <title>Cafe Test</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@1.20.2/dist/quasar.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="app">
+    <q-table flat title="Cafe" :data="orders" :columns="columns" row-key="name">
+      <template v-slot:body-cell-items_left="props">
+        <td class="{ bggreen: !props.row.items_left }">
+          {{ props.row.items_left }} left
+          <q-linear-progress stripe rounded size="20px" 
+          :value="props.row.completed" color="blue" class="q-mt-sm" />
+        </td>
+      </template>
+    </q-table>
+  </div>
+  <!-- Add the following at the end of your body tag -->
+  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@1.20.2/dist/quasar.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+    integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('a430a1b036ff99f43866', {
+      cluster: 'eu'
+    });
+
+    const myOrder = function (order) {
+      console.log(Object.keys(JSON.parse(order.contents)))
+      order.contents = JSON.parse(order.contents);
+      order.items_ordered = (Object.values(order.contents?.coffee)).reduce((a, b) => a + b, 0);
+
+      order.completed = 0.01 * Math.round(100 * (order.items_left) / order.items_ordered);
+
+      console.log({ order });
+
+      return order;
+    }
+
+    var channel = pusher.subscribe('orders');
+    channel.bind('submited', function (data) {
+      app.orders.push(myOrder(data.order));
+    });
+    channel.bind('completed', function (data) {
+      let newOrder = myOrder(data.order);
+      let found = app.orders.find(e => e.id == newOrder.id);
+      if (!found) {
+        app.orders.push(newOrder);
+      } else {
+        app.orders = app.orders.map(e => e.id == newOrder.id ? newOrder : e);
+      }
+      setTimeout(() => {
+        app.orders = app.orders.filter(e => e.id != newOrder.id);
+      }, 3000);
+    });
+    channel.bind('updated', function (data) {
+      let newOrder = myOrder(data.order);
+      let found = app.orders.find(e => e.id == newOrder.id);
+      if (!found) {
+        app.orders.push(newOrder);
+      } else {
+        app.orders = app.orders.map(e => e.id == newOrder.id ? newOrder : e);
+      }
+    });
+
+    // Vue application
+    const app = new Vue({
+      el: '#app',
+      data: {
+        orders: [],
+        messages: [],
+        filter: "",
+        selected: [],
+        pagination: {
+          rowsPerPage: 25
+        },
+        columns: [
+          {
+            name: "id",
+            field: "id",
+            label: "ID",
+            sortable: true
+          },
+          {
+            name: "owner_id",
+            label: "owner_id",
+            field: row => row?.username ? row.username : row.owner_id,
+            sortable: true,
+            classes: "bg-grey-3 ellipsis",
+            headerClasses: "bg-primary text-white"
+          },
+          {
+            name: "items_left",
+            field: "items_left",
+            label: "items_left",
+          },
+          {
+            name: "total",
+            field: "total",
+            label: "total",
+          },
+        ],
+      },
+    });
+  </script>
+  <style>
+    .bggreen {
+      background-color: green;
+    }
+  </style>
+</body>

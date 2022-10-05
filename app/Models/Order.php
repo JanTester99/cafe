@@ -66,16 +66,16 @@ class Order extends Model
         $this->save();
     }
 
-    public function remove(Orderable $item): void
+    public function remove(Orderable $item): bool
     {
         $items = $this->getItems();
 
         // no such item in order
         if (!isset($items[$item->getType()])) {
-            return;
+            return false;
         }
         if (!in_array($item->getId(), array_keys($items[$item->getType()]))) {
-            return;
+            return false;
         }
 
         if ($items[$item->getType()][$item->getId()] == 1) {
@@ -89,6 +89,8 @@ class Order extends Model
         
         $this->contents = json_encode($items);
         $this->save();
+
+        return true;
     }
 
     public function getItems(): array
